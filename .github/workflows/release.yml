@@ -1,0 +1,14 @@
+name: Release new version
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - "package-lock.json"
+      - "package.json"
+
+jobs:
+  release-to-nexus:
+    uses: Maersk-Global/github-reusable-workflows/.github/workflows/ui-release-to-nexus.yml@main
+    secrets: inherit

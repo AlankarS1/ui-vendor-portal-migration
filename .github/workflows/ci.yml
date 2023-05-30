@@ -1,0 +1,36 @@
+name: Code scan
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+    paths-ignore:
+      - "package-lock.json"
+      - "package.json"
+
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "package-lock.json"
+      - "package.json"
+
+# Only one of these jobs runs at a time per branch, this cancels the other running jobs
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sonar:
+    uses: Maersk-Global/github-reusable-workflows/.github/workflows/sonar-scan.yml@main
+    secrets: inherit
+
+  polaris:
+    uses: Maersk-Global/github-reusable-workflows/.github/workflows/polaris-scan.yml@main
+    secrets: inherit
+
+  codeql:
+    uses: Maersk-Global/github-reusable-workflows/.github/workflows/codeql-scan.yml@main
+    secrets: inherit

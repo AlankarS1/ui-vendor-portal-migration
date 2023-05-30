@@ -1,0 +1,39 @@
+name: Deploy to Akamai NetStorage
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: Stage to deploy to.
+        required: true
+        default: "cdt"
+        type: choice
+        options:
+          - "cdt"
+          - "preprod"
+          - "prod"
+      folder-color:
+        description: Folder Color
+        required: true
+        default: "green"
+        type: choice
+        options:
+          - "green"
+          - "blue"
+          - "yellow"
+          - "orange"
+      version:
+        description: Version to deploy. Leave blank for the latest
+        required: false
+        type: string
+
+jobs:
+  deploy-to-akamai:
+    uses: Maersk-Global/github-reusable-workflows/.github/workflows/ui-deploy-to-akamai.yml@main
+    secrets: inherit
+    with:
+      stage: ${{ github.event.inputs.stage }}
+      folder-color: ${{ github.event.inputs.folder-color }}
+      version: ${{ github.event.inputs.version }}
+      project-subdomain: ${{ vars.PROJECT_SUBDOMAIN }}
+      project-path: ${{ vars.PROJECT_PATH }}

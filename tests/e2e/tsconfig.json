@@ -1,0 +1,12 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "isolatedModules": false,
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "types": ["cypress"]
+  }
+}
